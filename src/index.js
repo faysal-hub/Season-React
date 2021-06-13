@@ -6,13 +6,7 @@ if (module.hot) {
 }
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-
-    // THIS IS THE ONLY TIME we do direct assignment
-    // to this.state
-    this.state = { lat: null, errorMessage: '' };
-  }
+  state = { lat: null, errorMessage: '' };
 
   componentDidMount() {
     window.navigator.geolocation.getCurrentPosition(

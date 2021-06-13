@@ -6,21 +6,34 @@ if (module.hot) {
 }
 
 class App extends React.Component {
-  render() {
+  constructor(props) {
+    super(props);
+
+    // THIS IS THE ONLY TIME we do direct assignment
+    // to this.state
+    this.state = { lat: null, errorMessage: '' };
+
     window.navigator.geolocation.getCurrentPosition(
       (position) => {
-        console.log('Latitude is :', position.coords.latitude);
-        console.log('Longitude is :', position.coords.longitude);
+        // we called setstate!!!!
+        this.setState({ lat: position.coords.latitude });
       },
-      (error) => {
-        console.error('Error Code = ' + error.code + ' - ' + error.message);
-  }
+      (err) => {
+        this.setState({ errorMessage: err.message });
+      }
     );
+  }
 
-    return <div>Latitude: </div>;
+  // React says we have to define render!!
+  render() {
+    return (
+      <div>
+        Latitude: {this.state.lat}
+        <br />
+        Error: {this.state.errorMessage}
+      </div>
+    );
   }
 }
 
-
-ReactDOM.render(<App />, document.getElementById('root'));
-
+ReactDOM.render(<App />, document.querySelector('#root'));
